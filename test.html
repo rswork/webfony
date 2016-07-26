@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>test</title>
+    <script src="kernel.js"></script>
+  </head>
+
+  <body>
+  </body>
+
+  <script>
+    (function(){
+      var gKernel = new rswork.Kernel(
+          'body',
+          document.getElementsByTagName('body')[0],
+          'prod',
+          false
+      );
+
+      var request = rswork.http.Request.fn.createFromGlobal();
+      var response = gKernel.handle(request);
+      response.send();
+    })();
+  </script>
+</html>
