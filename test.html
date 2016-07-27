@@ -4,21 +4,35 @@
     <script src="kernel.js"></script>
   </head>
 
-  <body>
+  <body data-kernel-id="body" id="body">
+    <div data-kernel-id="header" id="header">
+    </div>
   </body>
 
   <script>
     (function(){
       var gKernel = new rswork.Kernel(
           'body',
-          document.getElementsByTagName('body')[0],
+          document.getElementById('body'),
           'prod',
           false
       );
 
       var request = rswork.http.Request.fn.createFromGlobal();
-      var response = gKernel.handle(request);
-      response.send();
+      gKernel.handle(request).send();
+
+      var headerKernel = new rswork.Kernel(
+          'header',
+          gKernel.rootElement.querySelector('#header'),
+          'prod',
+          false
+      );
+
+      gKernel.appendChild(headerKernel);
+
+      headerKernel.handle(request.copy()).send();
+
+      console.log(gKernel, headerKernel, gKernel.children.all());
     })();
   </script>
 </html>
